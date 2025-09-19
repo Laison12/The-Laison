@@ -115,7 +115,6 @@
       flex-grow: 1;
       padding: 10px;
       overflow-y: auto;
-      /*fundo do chat*/
       background-image: url(/images6.png);
       background-repeat: no-repeat;
       background-size: cover;
@@ -131,10 +130,11 @@
       word-wrap: break-word;
       font-size: 16px;
       line-height: 1.5;
+      position: relative;
     }
 
     .sent {
-      background-image: linear-gradient(white,white);
+      background-image: linear-gradient(white, white);
       align-self: flex-end;
       color: #212121;
       border-radius: 20px 20px 0px 20px;
@@ -147,7 +147,19 @@
       color: white;
       border-radius: 20px 20px 20px 0px;
       margin-bottom: 1rem;
-      
+    }
+
+    .seen-by {
+      display: flex;
+      margin-top: 2px;
+      gap: 4px;
+    }
+
+    .seen-by img {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 1px solid #444;
     }
 
     .boxmensagem {
@@ -163,11 +175,9 @@
 
     #messageInput {
       border-radius: 20px 0px 20px 20px;
-      
       border: 1px solid white;
       font-size: 16px;
       resize: none;
-      
       margin-right: 10px;
       outline: none;
       width: 65%;
@@ -177,11 +187,6 @@
       color: white;
     }
 
-    #sendButton img {
-      width: 2rem;
-      height: 2rem;
-    }
-
     #sendButton {
       background: #212121;
       border: white 1px solid;
@@ -189,179 +194,92 @@
       color: white;
       width: 20%;
       border-radius: 0px 20px 0px 20px;
-      
     }
-    
-    header{
-  width: 100%;
-  height: auto;
-  padding: 1rem;
-  box-shadow: 0 0.1rem 0.5rem black;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-header img{
-  width: 6rem;
-  height: 2rem;
-}
-#profile-pic{
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  border-radius: 50%;
-}
-#imagemHade{
-display: flex;
 
-margin-right: 2rem;
-}
-#imagemHade img{
-  width: 2rem;
-height: 2rem;
-border: 1px solid grey;
-background: #212121;
-border-radius: 50%;
+    header {
+      width: 100%;
+      height: auto;
+      padding: 1rem;
+      box-shadow: 0 0.1rem 0.5rem black;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
 
-margin-left: 1rem;
+    header img {
+      width: 6rem;
+      height: 2rem;
+    }
 
-}
-.menu{
-  margin-top: 2rem;
-  display: flex;
-  
-  justify-content: space-between;
-}
-.menu img{
-  width: 2rem;
-  height: 2rem;
-  margin-left: 2rem;
-}
-.coler{
-  width: 6rem;
-  height: 10rem;
-  margin-left: 1rem;
-  border-radius: 20px;
-  border: 1px solid black;
-}
-.coler img{
-  width: 3rem;
-  height: 3rem;
-  
-  
-  margin-left: 1.5rem;
-}
-.blacker{
-  width: 100%;
-  margin-top: 17vh;
-border-bottom-right-radius: 20px;
-border-bottom-left-radius: 20px;
-  background: ;
-}
+    #profile-pic {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+    }
 
+    #imagemHade {
+      display: flex;
+      margin-right: 2rem;
+    }
 
+    #imagemHade img {
+      width: 2rem;
+      height: 2rem;
+      border: 1px solid grey;
+      background: #212121;
+      border-radius: 50%;
+      margin-left: 1rem;
+    }
 
+    .menu {
+      margin-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+    }
 
+    .menu img {
+      width: 2rem;
+      height: 2rem;
+      margin-left: 2rem;
+    }
 
-
-
-
-#chatWithUsername{
- position: fixed;
- top: 3.30rem;
- font-size: 12px;
- font-weight: 600;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    #chatWithUsername {
+      position: fixed;
+      top: 3.30rem;
+      font-size: 12px;
+      font-weight: 600;
+    }
   </style>
 </head>
 
 <body>
 
   <section id="friendsSection">
-  <header>
+    <header>
       <img src="laison2.png" id="logo" alt="Logo" />
-      
-      <div id="imagemHade" title="Publicar">
-          
-          
-          
-          
-          
-
-       
-      </div>
-      
+      <div id="imagemHade" title="Publicar"></div>
       <br />
       <div class="menu">
-          <a href="liaison.html" id="a"><img src="home.png" alt="" /></a>
-          
-          <a href="home.html"><img src="amigos.png" alt="" /></a>
-          
-          <a href="filmes.html"><img src="video.png" alt="" /></a>
-          
-          
-          <a href="chat.html" id="a"><img src="mensagem.png" alt="" /></a>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <a href="procurar.html"><img src="search.png" alt="" /></a>
-          
+        <a href="liaison.html" id="a"><img src="home.png" alt="" /></a>
+        <a href="home.html"><img src="amigos.png" alt="" /></a>
+        <a href="filmes.html"><img src="video.png" alt="" /></a>
+        <a href="chat.html" id="a"><img src="mensagem.png" alt="" /></a>
+        <a href="procurar.html"><img src="search.png" alt="" /></a>
       </div>
-  </header>
+    </header>
 
-
-
-    <h2 style="color:white;">        Amigos</h2>
+    <h2 style="color:white;">Amigos</h2>
     <div id="friendsList"></div>
   </section>
 
   <section id="chatSection">
-   
     <div id="chatHeader">
       <img id="friendPhoto" src="img/user.png" alt="Foto do amigo" />
-      <span id="chatWithUsername">
-        
-        
-      </span>
-      
-      
-      <button onclick="goBack()" style="color: darkred; background: none;font-weight: 900;border: none"> Voltar</button></button>
-      
-      
+      <span id="chatWithUsername"></span>
+      <button onclick="goBack()" style="color: darkred; background: none;font-weight: 900;border: none">Voltar</button>
     </div>
     <div id="messages"></div>
     <div class="boxmensagem">
-     
       <input id="messageInput" placeholder="Digite sua mensagem...">
       <button id="sendButton">Send</button>
     </div>
@@ -369,7 +287,7 @@ border-bottom-left-radius: 20px;
 
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-    import { getDatabase, ref, get, set, push, onChildAdded, onDisconnect } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+    import { getDatabase, ref, get, set, push, onChildAdded, onDisconnect, update } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
     import { getStorage, ref as storageRef, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
 
     const firebaseConfig = {
@@ -387,6 +305,10 @@ border-bottom-left-radius: 20px;
     const database = getDatabase(app);
     const storage = getStorage(app);
 
+    let currentChatKey = null;
+    let friendPhotoUrl = "img/user.png";
+
+    // 🔹 Carregar amigos com badge de mensagens não lidas
     const loadFriends = async () => {
       const currentUser = localStorage.getItem('username');
       if (!currentUser) {
@@ -408,7 +330,7 @@ border-bottom-left-radius: 20px;
           let profileImageUrl = 'img/user.png';
           try {
             profileImageUrl = await getDownloadURL(imageRef);
-          } catch {}
+          } catch { }
 
           const friendStatusRef = ref(database, `users/${friendUsername}/status`);
           const friendStatusSnapshot = await get(friendStatusRef);
@@ -449,29 +371,63 @@ border-bottom-left-radius: 20px;
       }
     };
 
+    // 🔹 Abrir chat
     window.openChat = async (friendUsername, profileImageUrl) => {
       const currentUser = localStorage.getItem('username');
       if (!currentUser) return;
 
       const chatKey = [currentUser, friendUsername].sort().join('_');
+      currentChatKey = chatKey;
+      friendPhotoUrl = profileImageUrl;
+
       const messagesRef = ref(database, `chats/${chatKey}/messages`);
 
       document.getElementById('friendsSection').style.display = 'none';
       document.getElementById('chatSection').style.display = 'flex';
       document.getElementById('chatWithUsername').textContent = ` ${friendUsername}`;
       document.getElementById('friendPhoto').src = profileImageUrl;
-
       document.getElementById('messages').innerHTML = '';
 
       // Marcar como lido
       const lastReadRef = ref(database, `users/${currentUser}/lastRead/${friendUsername}`);
       set(lastReadRef, Date.now());
 
-      onChildAdded(messagesRef, (data) => {
+      // Listener mensagens
+      onChildAdded(messagesRef, async (data) => {
         const message = data.val();
+        const messageId = data.key;
+
         const messageElement = document.createElement('div');
         messageElement.classList.add('message', message.sender === currentUser ? 'sent' : 'received');
         messageElement.textContent = message.text;
+
+        // 🔹 Área para quem viu
+        if (message.sender === currentUser) {
+          const seenDiv = document.createElement('div');
+          seenDiv.classList.add('seen-by');
+          messageElement.appendChild(seenDiv);
+
+          if (message.seenBy) {
+            for (const [user, pic] of Object.entries(message.seenBy)) {
+              const img = document.createElement('img');
+              img.src = pic;
+              img.title = user;
+              seenDiv.appendChild(img);
+            }
+          }
+        } else {
+          // 🔹 Se for recebida, marca como visualizada
+          const currentUserPicRef = storageRef(storage, 'profile_images/' + currentUser);
+          let currentUserPic = "img/user.png";
+          try {
+            currentUserPic = await getDownloadURL(currentUserPicRef);
+          } catch { }
+
+          update(ref(database, `chats/${chatKey}/messages/${messageId}/seenBy`), {
+            [currentUser]: currentUserPic
+          });
+        }
+
         document.getElementById('messages').appendChild(messageElement);
         document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
       });
@@ -485,19 +441,22 @@ border-bottom-left-radius: 20px;
         await set(newMessageRef, {
           sender: currentUser,
           text: messageText,
-          timestamp: Date.now()
+          timestamp: Date.now(),
+          seenBy: {}
         });
 
         messageInput.value = '';
       };
     };
 
+    // 🔹 Voltar para lista de amigos
     window.goBack = () => {
       document.getElementById('friendsSection').style.display = 'flex';
       document.getElementById('chatSection').style.display = 'none';
-      loadFriends();
+      loadFriends(); // recarregar badges
     };
 
+    // 🔹 Atualizar status online/offline
     const setUserOnlineStatus = () => {
       const currentUser = localStorage.getItem('username');
       if (!currentUser) return;

@@ -105,7 +105,106 @@
       <button class="cancel" onclick="hidePostSection()">Cancelar</button>
     </div>
   </section>
+    <div class="controls">
+      <input id="search" class="search" placeholder="Pesquisar filmes..." />
+      <button class="btn" id="refresh">Atualizar</button>
+    </div>
+    <main>
+    <div class="scroll-area" id="scrollArea">
+      <section>
+        <div class="section-head"><h2>Estreias</h2><small id="premieres-count"></small></div>
+        <div class="hscroll" id="premieres-list"></div>
+      </section>
+      <section>
+        <div class="section-head"><h2>Em Cartaz</h2><small id="nowplaying-count"></small></div>
+        <div class="hscroll" id="nowplaying-list"></div>
+      </section>
+      <section>
+        <div class="section-head"><h2>Populares</h2><small id="popular-count"></small></div>
+        <div class="hscroll" id="popular-list"></div>
+      </section>
+      <section>
+        <div class="section-head"><h2>Melhores Avaliados</h2><small id="toprated-count"></small></div>
+        <div class="hscroll" id="toprated-list"></div>
+      </section>
+      <section>
+        <div class="section-head"><h2>Mais Assistidos</h2><small id="trending-count"></small></div>
+        <div class="hscroll" id="trending-list"></div>
+      </section>
+    </div>
+  </main>
 
+  <footer>
+    <span>© Laison</span>
+    <span id="last-updated"></span>
+  </footer>
+
+<script>
+const MOVIE_API_KEY = 'f5a1d43948a6c7361536ebaf00db0f5a';
+const TMDB_BASE = 'https://api.themoviedb.org/3';
+const IMG = 'https://image.tmdb.org/t/p/w500';
+
+function createCard(m){
+  const poster = m.poster_path ? IMG+m.poster_path : '';
+  const el = document.createElement('article');
+  el.className='card';
+  el.innerHTML=`
+    <img class="poster" src="${poster}" alt="${m.title}">
+    <div class="card-body">
+      <div class="movie-title">${m.title}</div>
+      <div class="meta"><span>${(m.release_date||'').slice(0,4)}</span><span class="rating">${m.vote_average.toFixed(1)}★</span></div>
+    </div>`;
+  el.onclick=()=> window.open(`https://www.themoviedb.org/movie/${m.id}`,'_blank');
+  return el;
+}
+
+async function fetchMovies(endpoint){
+  const res=await fetch(`${TMDB_BASE}${endpoint}?api_key=${MOVIE_API_KEY}&language=pt-BR&page=1`);
+  const data=await res.json();
+  return data.results||[];
+}
+
+async function fetchTrending(){
+  const res=await fetch(`${TMDB_BASE}/trending/movie/week?api_key=${MOVIE_API_KEY}&language=pt-BR`);
+  const data=await res.json();
+  return data.results||[];
+}
+
+async function render(){
+  document.getElementById('refresh').disabled=true;
+  const [premieres, now, popular, top, trending] = await Promise.all([
+    fetchMovies('/movie/upcoming'),
+    fetchMovies('/movie/now_playing'),
+    fetchMovies('/movie/popular'),
+    fetchMovies('/movie/top_rated'),
+    fetchTrending()
+  ]);
+  renderList('premieres',premieres);
+  renderList('nowplaying',now);
+  renderList('popular',popular);
+  renderList('toprated',top);
+  renderList('trending',trending);
+  document.getElementById('last-updated').textContent='Atualizado '+new Date().toLocaleString();
+  document.getElementById('refresh').disabled=false;
+}
+function renderList(name,list){
+  const container=document.getElementById(name+'-list');
+  const count=document.getElementById(name+'-count');
+  container.innerHTML='';
+  list.forEach(m=>container.appendChild(createCard(m)));
+  count.textContent=list.length+' filmes';
+}
+render();
+document.getElementById('refresh').onclick=render;
+
+document.getElementById('search').addEventListener('input',e=>{
+  const q=e.target.value.toLowerCase();
+  document.querySelectorAll('.card').forEach(c=>{
+    const t=c.querySelector('.movie-title').textContent.toLowerCase();
+    c.style.display=t.includes(q)?'block':'none';
+  });
+});
+</script>
   <!-- Feed de publicações -->
   <main id="feed"></main>
 

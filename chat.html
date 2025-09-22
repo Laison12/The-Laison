@@ -139,14 +139,15 @@
       color: #212121;
       border-radius: 20px 20px 0px 20px;
       margin-left: auto;
-      margin-bottom: 2.5rem;
+      margin-bottom: 3.2rem;
     }
 
     .received {
       background-image: linear-gradient(#212121, #212121);
       color: white;
       border-radius: 20px 20px 20px 0px;
-      margin-bottom: 2.5rem;
+      border: 1px solid white;
+      margin-bottom: 3.2rem;
     }
 
     .seen-by {
@@ -180,20 +181,31 @@
       resize: none;
       margin-right: 10px;
       outline: none;
-      width: 65%;
+      width: 55%;
       padding: 12px;
       background: none;
       height: auto;
       color: white;
     }
-
-    #sendButton {
+  #imageButton{
+      background: #212121;
+      border: white 1px solid;
+      cursor: pointer;
+      color: white;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 20px;
+      margin-left: 5px;
+      
+  }
+    #sendButton{
       background: #212121;
       border: white 1px solid;
       cursor: pointer;
       color: white;
       width: 20%;
       border-radius: 0px 20px 0px 20px;
+      margin-left: 5px;
     }
 
     header {
@@ -249,6 +261,7 @@
       font-size: 12px;
       font-weight: 600;
     }
+    
   </style>
 </head>
 
@@ -281,6 +294,8 @@
     <div id="messages"></div>
     <div class="boxmensagem">
       <input id="messageInput" placeholder="Digite sua mensagem...">
+      <input type="file" id="imageInput" accept="image/*" style="display:none;" />
+      <img src="upload.png" id="imageButton" alt="Upload"></but
       <button id="sendButton">Send</button>
     </div>
   </section>
@@ -288,7 +303,7 @@
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
     import { getDatabase, ref, get, set, push, onChildAdded, onDisconnect, update } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
-    import { getStorage, ref as storageRef, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
+    import { getStorage, ref as storageRef, getDownloadURL, uploadBytes } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js';
 
     const firebaseConfig = {
       apiKey: "AIzaSyDsP7lNqu-tDpJxpsyv8t1DW0M_u2EAE3o",
@@ -399,7 +414,20 @@
 
         const messageElement = document.createElement('div');
         messageElement.classList.add('message', message.sender === currentUser ? 'sent' : 'received');
-        messageElement.textContent = message.text;
+
+        if (message.text) {
+          messageElement.textContent = message.text;
+        }
+
+        if (message.imageUrl) {
+          const img = document.createElement('img');
+          img.src = message.imageUrl;
+          img.style.maxWidth = "200px";
+          img.style.borderRadius = "10px";
+          img.style.display = "block";
+          img.style.marginTop = "5px";
+          messageElement.appendChild(img);
+        }
 
         // 🔹 Área para quem viu
         if (message.sender === currentUser) {
@@ -447,13 +475,45 @@
 
         messageInput.value = '';
       };
+
+      // 🔹 Enviar imagem
+      document.getElementById('imageButton').onclick = () => {
+        document.getElementById('imageInput').click();
+      };
+
+      document.getElementById('imageInput').onchange = async (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const storagePath = `chat_images/${currentChatKey}/${Date.now()}_${file.name}`;
+        const fileRef = storageRef(storage, storagePath);
+
+        try {
+          await uploadBytes(fileRef, file);
+          const downloadURL = await getDownloadURL(fileRef);
+
+          const newMessageRef = push(messagesRef);
+          await set(newMessageRef, {
+            sender: currentUser,
+            text: "",
+            imageUrl: downloadURL,
+            timestamp: Date.now(),
+            seenBy: {}
+          });
+        } catch (error) {
+          console.error("Erro ao enviar imagem:", error);
+          alert("Erro ao enviar a imagem. Tenta novamente.");
+        }
+
+        event.target.value = "";
+      };
     };
 
     // 🔹 Voltar para lista de amigos
     window.goBack = () => {
       document.getElementById('friendsSection').style.display = 'flex';
       document.getElementById('chatSection').style.display = 'none';
-      loadFriends(); // recarregar badges
+      loadFriends();
     };
 
     // 🔹 Atualizar status online/offline

@@ -6,6 +6,8 @@ const FILES_TO_CACHE = [
   "/",
   "/index.html",
   "/home.html",
+  "HTML.html",
+  "v.mp4",
   "/chat.html",
   "/chatboot.html",
   "/filmes.html",
